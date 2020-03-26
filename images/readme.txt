@@ -1,3 +1,6 @@
+
+Pivoted due to lack of hardware components:
+
 Indoor Autonomous Navigation Solution Using CCTV footage and Cloud Compute:
 
 The aim is to enable Indoor Autonomous Navigation for Robots in Facilities like Hospitals and  Shopping Malls while the Indoor Environment is covered by CCTV surveillance.
