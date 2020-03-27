@@ -1,0 +1,17 @@
+<launch>
+  <rosparam param="rate">10</rosparam>
+
+  <node pkg="localbot" type="motorControlClass.py" name="lmotorControl" respawn="true">
+      <remap from="motor_cmd" to="lmotor_cmd"/>
+      <rosparam param="GPWM">12</rosparam>
+      <rosparam param="GIN1">5</rosparam>
+      <rosparam param="GIN2">6</rosparam>
+  </node>
+
+  <node pkg="localbot" type="motorControlClass.py" name="rmotorControl" respawn="true">
+      <remap from="motor_cmd" to="rmotor_cmd"/>
+      <rosparam param="GPWM">13</rosparam>
+      <rosparam param="GIN1">16</rosparam>
+      <rosparam param="GIN2">26</rosparam>
+  </node>
+</launch>

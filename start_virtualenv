@@ -1,0 +1,4 @@
+#!/bin/bash
+#https://gist.github.com/IamAdiSri/a379c36b70044725a85a1216e7ee9a46
+#mkvirtualenv <project name>
+source ~/virtualenvs/test/bin/activate
