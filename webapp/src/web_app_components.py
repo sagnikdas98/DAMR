@@ -38,11 +38,25 @@ class DAMRWEB:
 
         self.bus_service.create_topic((self.topic_vel+bot_id), self.topic_options)
         self.bus_service.create_topic((self.topic_stop+bot_id), self.topic_options)
-        self.bus_service.create_subscription((self.topic_vel+bot_id), bot_id)
-        self.bus_service.create_subscription((self.topic_stop+bot_id), bot_id)
+        # self.bus_service.create_subscription((self.topic_vel+bot_id), bot_id)
+        # self.bus_service.create_subscription((self.topic_stop+bot_id), bot_id)
 
         pass
 
 
-    def remoteControl(self, bot_id):
-        
+    def remoteControl(self, bot_id, cmd_value):
+
+        msg = Message(str(cmd_value).encode('utf-8'))
+        self.bus_service.send_topic_message((self.topic_vel+bot_id), msg)
+
+
+    def remoteControlStop(self, bot_id):
+
+        msg = Message('0 0'.encode('utf-8'))
+        self.bus_service.send_topic_message((self.topic_vel+bot_id), msg)
+
+
+    def deleteTopic(self, bot_id):
+        self.bus_service.delete_topic((self.topic_vel+bot_id))
+        self.bus_service.delete_topic((self.topic_stop+bot_id))
+

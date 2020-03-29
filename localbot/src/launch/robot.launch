@@ -14,4 +14,14 @@
       <rosparam param="GIN1">16</rosparam>
       <rosparam param="GIN2">26</rosparam>
   </node>
+
+  <node pkg="localbot" type="queueReader.py" name="QueueRead" respawn="true">
+      
+      <rosparam param="SAS_NAME">$(env SAS_NAME)</rosparam>
+      <rosparam param="SAS_VALUE">$(env SAS_VALUE)</rosparam>
+      <rosparam param="TOPIC_NAMESPACE">$(env TOPIC_NAMESPACE)</rosparam>
+      <rosparam param="BOT_ID">$(env BOT_ID)</rosparam>
+  </node>
+
+
 </launch>
