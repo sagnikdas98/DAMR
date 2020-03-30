@@ -13,9 +13,10 @@ from flask_login         import login_user, logout_user, current_user, login_req
 from werkzeug.exceptions import HTTPException, NotFound, abort
 
 # App modules
-from app        import app, lm, db, bc
-from app.models import User
-from app.forms  import LoginForm, RegisterForm
+from app         import app, lm, db, bc
+from app.models  import User
+from app.forms   import LoginForm, RegisterForm, AzureCredentials
+from app.scripts import DAMRWEB
 
 # Provide login manager with load_user callback
 @lm.user_loader
@@ -119,24 +120,48 @@ def login():
                             content=render_template( 'pages/login.html', form=form, msg=msg ) )
 
 # App main route + generic routing
-@app.route('/', defaults={'path': 'index.html'})
-@app.route('/<path>')
+@app.route('/', defaults={'path': 'index.html'}, methods=['GET', 'POST'])
+@app.route('/<path>', methods=['GET', 'POST'])
 def index(path):
 
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
 
-    content = None
+    # Declare the credentials form
+    form = AzureCredentials(request.form)
 
+    # Flask message injected into the page, in case of any errors
+    msg = None
+
+    # check if both http method is POST and form is valid on submit
+    if form.validate_on_submit():
+        namespace  = request.form.get('namespace' , '', type=str)
+        sasName    = request.form.get('sasName'   , '', type=str)
+        sasValue   = request.form.get('sasValue'  , '', type=str)
+
+        # create object of DAMRWEB 
+        damrweb = DAMRWEB(namespace, sasName, sasValue)
+        print(damrweb)
+        if damrweb:
+            return redirect(url_for('robots'))
+        else:
+            msg = "Unable to create a DAMRWEB object, possibly invalid credentials."
+    else:
+        msg = "Invalid Input"
+    content = None
     try:
 
         # try to match the pages defined in -> pages/<input file>
         return render_template('layouts/default.html',
-                                content=render_template( 'pages/'+path) )
+                                content=render_template( 'pages/'+path, form=form, msg=msg) )
     except:
         
         return render_template('layouts/auth-default.html',
                                 content=render_template( 'pages/error-404.html' ) )
+
+@app.route('/robots')
+def robots():
+    return render_template('layouts/default.html', content=render_template('pages/robots.html'))
 
 # Return sitemap 
 @app.route('/sitemap.xml')

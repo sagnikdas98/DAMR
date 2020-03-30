@@ -18,3 +18,8 @@ class RegisterForm(FlaskForm):
 	username    = StringField  (u'Username'  , validators=[DataRequired()])
 	password    = PasswordField(u'Password'  , validators=[DataRequired()])
 	email       = StringField  (u'Email'     , validators=[DataRequired(), Email()])
+
+class AzureCredentials(FlaskForm):
+	namespace   = StringField   (u'Namespace' , validators=[DataRequired()])
+	sasName		= StringField	(u'SAS Name'  , validators=[DataRequired()])
+	sasValue 	= StringField	(u'SAS Value' , validators=[DataRequired()])
