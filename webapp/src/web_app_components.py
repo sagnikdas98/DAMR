@@ -26,6 +26,8 @@ class DAMRWEB:
         shared_access_key_name=self.SAS_name,
         shared_access_key_value=self.SAS_value)
 
+        self.cmd_values = {'N': "100 100", 'S': '-100 -100', 'W': '-50 50', 'E': '50 -50'}
+
         
 
 
@@ -44,9 +46,9 @@ class DAMRWEB:
         pass
 
 
-    def remoteControl(self, bot_id, cmd_value):
+    def remoteControl(self, bot_id, cmd_dirn):
 
-        msg = Message(str(cmd_value).encode('utf-8'))
+        msg = Message(self.cmd_values[cmd_dirn].encode('utf-8'))
         self.bus_service.send_topic_message((self.topic_vel+bot_id), msg)
 
 
