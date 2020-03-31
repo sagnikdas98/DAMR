@@ -6,7 +6,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 import os
 
-from flask            import Flask
+from flask            import Flask, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_login      import LoginManager
 from flask_bcrypt     import Bcrypt
@@ -24,10 +24,24 @@ bc = Bcrypt      (app) # flask-bcrypt
 lm = LoginManager(   ) # flask-loginmanager
 lm.init_app(app) # init the login manager
 
+
 # Setup database
 @app.before_first_request
 def initialize_database():
     db.create_all()
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
 # Import routing, models and Start the App
 from app import views, models, scripts

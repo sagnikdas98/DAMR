@@ -21,20 +21,9 @@
                             <i class="fa fa-home"></i> Dashboard </a>
                     </li>
                     <li>
-                        <a href="">
-                            <i class="fa fa-sitemap"></i> Robot Management <i class="fa arrow"></i>
-                        </a>
-                        <ul class="sidebar-nav">
-                            <li>
-                                <a href={{ url_for('robots') }}> Add new </a>
-                            </li>
-                            <li>
-                                <a href={{ url_for('robots') }}> Available </a>
-                            </li>
-                            <li>
-                                <a href={{ url_for('robots') }}> Under Use </a>
-                            </li>
-                        </ul>
+                        <a href="{{ url_for('robots') }}">
+                            <i class="fa fa-sitemap"></i> Robot Management
+                        </a>                        
                     </li>
                     <li>
                         <a href={{ url_for('logout') }}>

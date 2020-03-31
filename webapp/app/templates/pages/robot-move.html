@@ -1,0 +1,70 @@
+<script type=text/javascript>
+    $(function() {
+      $('.move').bind('click', function() {
+        $.getJSON('/robot_keys',
+            function(data) {
+          //do nothing
+        });
+        return false;
+      });
+    });
+</script>
+
+<div class="modal-header">
+    <h4 class="modal-title">Move Robot : {{ ipAddress }}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <form method="post">
+        <div class="d-flex flex-row justify-content-center">
+            <div class="p-2">
+                <button type="button"
+                    name="North"
+                    value="North"
+                    class="btn btn-primary move">
+                N
+                </button>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center">
+            <div class="p-2">
+                <button type="button" 
+                    class="btn btn-primary mr-2 move"
+                    name="West"
+                    value="West">
+                    W
+                </button>
+                <button type="button"
+                    name="East"
+                    class="btn btn-primary ml-2 move">
+                    E
+                </button>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center">
+            <div class="p-2">
+                <button type="button"
+                    name="South"
+                    class="btn btn-primary move">
+                    S
+                </button>
+            </div>
+        </div>
+        <div class="d-flex flex-row float-right">
+            <div class="p-2">
+                <button type="button"
+                    name="Stop"
+                    class="btn btn-danger">
+                    STOP
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
