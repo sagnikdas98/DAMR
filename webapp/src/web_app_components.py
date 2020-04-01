@@ -1,7 +1,5 @@
 from azure.servicebus.control_client import ServiceBusService, Message, Topic, Rule, DEFAULT_RULE_NAME
 
-
-
 class DAMRWEB:
 
 
@@ -27,6 +25,7 @@ class DAMRWEB:
         shared_access_key_value=self.SAS_value)
 
         self.cmd_values = {'N': "100 100", 'S': '-100 -100', 'W': '-50 50', 'E': '50 -50'}
+        self.bot_list = []
 
         
 
@@ -42,6 +41,7 @@ class DAMRWEB:
         self.bus_service.create_topic((self.topic_stop+bot_id), self.topic_options)
         # self.bus_service.create_subscription((self.topic_vel+bot_id), bot_id)
         # self.bus_service.create_subscription((self.topic_stop+bot_id), bot_id)
+        self.bot_list.append(bot_id)
 
         pass
 
@@ -61,4 +61,12 @@ class DAMRWEB:
     def deleteTopic(self, bot_id):
         self.bus_service.delete_topic((self.topic_vel+bot_id))
         self.bus_service.delete_topic((self.topic_stop+bot_id))
+
+    def cleanup(self):
+
+        for bot in self.bot_list:
+            self.deleteTopic(bot)
+
+
+
 
