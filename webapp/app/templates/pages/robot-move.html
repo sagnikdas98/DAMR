@@ -1,12 +1,12 @@
 <script type=text/javascript>
-    $(function() {
-      $('.move').bind('click', function() {
-        $.getJSON('/robot_keys',
-            function(data) {
-          //do nothing
+    $(function() {        
+        $('.move').bind('click', function() {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'POST',
+            })
         });
-        return false;
-      });
     });
 </script>
 
@@ -24,6 +24,8 @@
                 <button type="button"
                     name="North"
                     value="North"
+                    id="North"
+                    data-url="{{ url_for('robot_keys', direction='North') }}"
                     class="btn btn-primary move">
                 N
                 </button>
@@ -33,12 +35,11 @@
             <div class="p-2">
                 <button type="button" 
                     class="btn btn-primary mr-2 move"
-                    name="West"
-                    value="West">
+                    data-url="{{ url_for('robot_keys', direction='West') }}">
                     W
                 </button>
                 <button type="button"
-                    name="East"
+                    data-url="{{ url_for('robot_keys', direction='East') }}"
                     class="btn btn-primary ml-2 move">
                     E
                 </button>
@@ -47,7 +48,7 @@
         <div class="d-flex flex-row justify-content-center">
             <div class="p-2">
                 <button type="button"
-                    name="South"
+                    data-url="{{ url_for('robot_keys', direction='South') }}"
                     class="btn btn-primary move">
                     S
                 </button>
@@ -57,7 +58,8 @@
             <div class="p-2">
                 <button type="button"
                     name="Stop"
-                    class="btn btn-danger">
+                    data-url="{{ url_for('robot_keys', direction='STOP') }}"
+                    class="btn btn-danger move">
                     STOP
                 </button>
             </div>

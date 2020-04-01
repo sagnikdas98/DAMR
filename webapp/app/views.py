@@ -215,10 +215,15 @@ def robot_move(ipAddress):
     return jsonify(data)
 
 
-@app.route("/robot_keys", methods=["GET", "POST"])
-def robot_keys():
-    print(list(request.form.items()))
+@app.route("/robot_keys/<direction>", methods=["GET", "POST"])
+def robot_keys(direction):
     data = dict()
+    print(direction)
+    DAMRWEB.createLocalbot(bot_id=bot_id)
+    if direction == "STOP":
+        DAMRWEB.remoteControlStop(bot_id=bot_id)
+    else:
+        DAMRWEB.remoteControl(bot_id=bot_id, cmd_value=direction)
     template_name = "pages/robot-move.html"
     data["popup"] = render_template(template_name)
     return jsonify(data)
