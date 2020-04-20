@@ -1,23 +1,69 @@
-import cv2 as cv
+import cv2
+import os
+import acapture
+import threading
 
-cap = cv.VideoCapture("rtsp://admin:admin123@192.168.0.127:554/Streaming/Channels/101")
-cap1 = cv.VideoCapture("rtsp://admin:admin123@192.168.0.127:554/Streaming/Channels/401")
+import rtsp
+
+cap = cv2.VideoCapture("rtsp://admin:111111@10.25.117.102:10554/tcp/av0_0")
+cap.set(cv2.CAP_PROP_FOURCC,  cv2.VideoWriter.fourcc('H','2','6','4'))
+os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;udp"
+# cap = cv2.VideoCapture(0)
+
 
 if cap.isOpened()== False:
     print("Error camera 1 isn't connecting")
-if cap1.isOpened()== False:
-    print("Error camera 2 isn't connecting")
 
-while (cap.isOpened() or cap1.isOpened()):
-   ret, img = cap.read()
-   ret1, img1 = cap1.read()
-   if ret == True:
-       cv.imshow('Video 1',img)
-       cv.imshow('Video 2',img1)
 
-   if cv.waitKey(1) and 0xFF == ord('q'):
+while (cap.isOpened()):
+    ret, img = cap.read()
+    if ret == True:
+        cv2.imshow('Video 1',img)
+
+    else:
+        print('wtf')
+
+    if cv2.waitKey(1) and 0xFF == ord('q'):
         break
 
-cap.release()
-cap1.release()
-cv.destroyAllWindows()
+
+
+# cap = acapture.open("rtsp://admin:111111@10.25.117.102:10554/tcp/av0_0", frame_capture=True)
+# while True:
+#     check,frame = cap.read() # non-blocking
+#     if check:
+#         frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+#         cv2.imshow("test",frame)
+#         cv2.waitKey(1)
+
+
+# with rtsp.Client(rtsp_server_uri = 'rtsp://admin:111111@10.25.117.102:10554/tcp/av0_0') as client:
+#     client.preview()
+
+    
+
+# def captureimages():
+#     while True:
+#         cap.grab()
+
+# s = threading.Thread(target=captureimages)
+# s.start()
+
+# while (cap.isOpened()):
+#     img = cap.retrieve()
+#     cv2.imshow('Video 1',img)
+
+# cap = cv2.VideoCapture("rtsp://admin:111111@10.25.117.102:10554/tcp/av0_0.h264")
+
+# while(1):
+
+#     ret, frame = cap.read()
+#     cv2.imshow('VIDEO', frame)
+#     cv2.waitKey(1)
+# ffmpeg -rtsp_transport tcp -i rtsp://10.25.117.102:10554/tcp/av0_0 -f image2 -vf fps=fps=1 hello/img%03d.png
+# ffplay rtsp://admin:111111@10.25.117.102:10554/tcp/av0_0
+
+# cap.release()
+# cv2.destroyAllWindows()
+
+# ffmpeg -rtsp_transport tcp -i rtsp://admin:111111@10.25.117.102:10554/tcp/av0_0 -f image2 -vf fps=fps=1 hello/img%03d.png
